@@ -1,15 +1,37 @@
-Source: template-repository
-Section: unknown
+Source: libx86
+Section: libs
 Priority: optional
-Maintainer: Tsic404 <liuheng@deepin.org>
-Build-Depends: debhelper (>= 11)
-Standards-Version: 4.1.3
-Homepage: https://github.com/deepin-community/template-repository
-#Vcs-Browser: https://salsa.debian.org/debian/deepin-community-template-repository
-#Vcs-Git: https://salsa.debian.org/debian/deepin-community-template-repository.git
+Maintainer: Debian QA Group <packages@qa.debian.org>
+Build-Depends:
+ debhelper-compat (= 12),
+Standards-Version: 4.5.0
+Rules-Requires-Root: no
+Homepage: https://www.codon.org.uk/~mjg59/libx86/
+Vcs-Git: https://salsa.debian.org/debian/libx86.git
+Vcs-Browser: https://salsa.debian.org/debian/libx86
 
-Package: template-repository
-Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}
-Description: <insert up to 60 chars description>
- <insert long description, indented with spaces>
+Package: libx86-1
+Multi-Arch: same
+Pre-Depends:
+ ${misc:Pre-Depends},
+Depends:
+ ${misc:Depends},
+ ${shlibs:Depends},
+Architecture: any-amd64 any-i386
+Description: x86 real-mode library
+ A library to provide support for making real-mode calls x86 calls. On x86
+ hardware, vm86 mode is used. On other platforms, x86 emulation is provided.
+ .
+ This package contains the shared library.
+
+Package: libx86-dev
+Section: libdevel
+Depends:
+ libx86-1 (= ${binary:Version}),
+ ${misc:Depends},
+Architecture: any-amd64 any-i386
+Description: x86 real-mode library - development files
+ A library to provide support for making real-mode calls x86 calls. On x86
+ hardware, vm86 mode is used. On other platforms, x86 emulation is provided.
+ .
+ This package contains the development files for libx86.
