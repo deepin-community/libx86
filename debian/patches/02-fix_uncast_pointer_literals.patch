@@ -1,0 +1,35 @@
+From: Andrew Bower <andrew@bower.uk>
+Date: Mon, 9 Dec 2024 18:54:19 +0000
+Forwarded: no
+Subject: amd64: stop assuming long is 32 bits, fixing FTBFS with gcc-14
+
+Appease [-Wincompatible-pointer-types]. (Closes: #1075218)
+---
+ x86emu/include/xf86int10.h | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
+
+diff --git a/x86emu/include/xf86int10.h b/x86emu/include/xf86int10.h
+index 9c131dd..2ec2b58 100644
+--- a/x86emu/include/xf86int10.h
++++ b/x86emu/include/xf86int10.h
+@@ -9,6 +9,7 @@
+ #ifndef _XF86INT10_H
+ #define _XF86INT10_H
+ 
++#include "types.h"
+ 
+ #define SEG_ADDR(x) (((x) >> 4) & 0x00F000)
+ #define SEG_OFF(x) ((x) & 0x0FFFF)
+@@ -16,9 +17,9 @@
+ #define SET_BIOS_SCRATCH     0x1
+ #define RESTORE_BIOS_SCRATCH 0x2
+ 
+-#define CARD8  unsigned char
+-#define CARD16 unsigned short
+-#define CARD32 unsigned long
++#define CARD8  u8
++#define CARD16 u16
++#define CARD32 u32
+ #define pointer void *
+ #define IOADDRESS void *
+ #define Bool int

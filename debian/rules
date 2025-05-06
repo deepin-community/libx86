@@ -1,4 +1,26 @@
 #!/usr/bin/make -f
+# -*- makefile -*-
+
+export DH_VERBOSE=1
+export DEB_BUILD_MAINT_OPTIONS = hardening=+all
+
+DPKG_EXPORT_BUILDFLAGS = 1
+include /usr/share/dpkg/buildflags.mk
+include /usr/share/dpkg/architecture.mk
+
+# see #852663 regarding the -O1 workaround
+CFLAGS += -O1 -Wall -DDEBUG -g
+
+export LIBDIR = /usr/lib/$(DEB_HOST_MULTIARCH)
+export LIBEXECDIR = /usr/lib/$(DEB_HOST_MULTIARCH)
+
+BACKEND = x86emu
 
 %:
 	dh $@
+
+override_dh_auto_build:
+	dh_auto_build -- BACKEND="$(BACKEND)"
+
+override_dh_missing:
+	dh_missing --fail-missing
